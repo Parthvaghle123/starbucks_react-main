@@ -15,10 +15,12 @@ const ChangePasswordOTP = () => {
   const [countdown, setCountdown] = useState(0);
   const navigate = useNavigate();
 
-  const showAlert = (message, type) => {
+  const showAlert = (message, type, clearAfter = 5000) => {
     setAlertMessage(message);
     setAlertType(type);
-    setTimeout(() => setAlertMessage(""), 5000);
+    if (clearAfter > 0) {
+      setTimeout(() => setAlertMessage(""), clearAfter);
+    }
   };
 
   // Step 1: Email verification and OTP sending
@@ -32,12 +34,13 @@ const ChangePasswordOTP = () => {
       });
 
       if (res.data.success) {
-        showAlert("OTP sent to your email successfully!", "success");
-        setStep(2);
-        // Show OTP in development
-        if (res.data.otp) {
-          console.log("Development OTP:", res.data.otp);
-        }
+        showAlert("Email verified! Sending OTP...", "success", 1000);
+        
+        setTimeout(() => {
+          setStep(2);
+          setAlertMessage(""); // Clear previous alert
+          showAlert("OTP sent to your email successfully!", "success");
+        }, 2000);
       } else {
         showAlert(res.data.message, "danger");
       }
@@ -201,21 +204,55 @@ const ChangePasswordOTP = () => {
           {/* Step 2: OTP Verification */}
           {step === 2 && (
             <div>
-            
               <form onSubmit={handleOTPSubmit}>
                 <div className="mb-3">
                   <label className="l1">OTP Code</label>
-                  <input
-                    type="text"
-                    className="form-control mt-2 text-center"
-                    placeholder="000000"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value.replace(/\\D/g, '').slice(0, 6))}
-                    maxLength="6"
-                    required
-                    disabled={loading}
-                    style={{ fontSize: '18px', letterSpacing: '2px' }}
-                  />
+                  <div className="d-flex justify-content-center gap-2 mt-2">
+                    {[0, 1, 2, 3, 4, 5].map((index) => (
+                      <input
+                        key={index}
+                        type="text"
+                        className="form-control text-center"
+                        style={{
+                          width: '50px',
+                          height: '50px',
+                          fontSize: '20px',
+                          fontWeight: 'bold'
+                        }}
+                        maxLength="1"
+                        value={otp[index] || ''}
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/\D/g, '');
+                          if (value) {
+                            const newOtp = otp.split('');
+                            newOtp[index] = value;
+                            setOtp(newOtp.join(''));
+                            
+                            // Auto-focus next input
+                            if (index < 5) {
+                              const nextInput = e.target.parentNode.children[index + 1];
+                              nextInput?.focus();
+                            }
+                          }
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Backspace') {
+                            if (!otp[index] && index > 0) {
+                              // Move to previous input if current is empty
+                              const prevInput = e.target.parentNode.children[index - 1];
+                              prevInput?.focus();
+                            } else if (otp[index]) {
+                              // Clear current input
+                              const newOtp = otp.split('');
+                              newOtp[index] = '';
+                              setOtp(newOtp.join(''));
+                            }
+                          }
+                        }}
+                        disabled={loading}
+                      />
+                    ))}
+                  </div>
                 </div>
                 <button 
                   type="submit" 
@@ -235,7 +272,6 @@ const ChangePasswordOTP = () => {
                 >
                   Resend OTP
                 </button>
-               
               </div>
             </div>
           )}
