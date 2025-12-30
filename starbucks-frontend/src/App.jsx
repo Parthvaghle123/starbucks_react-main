@@ -19,6 +19,7 @@ import Navbar from "./Navbar";
 import Order from "./Order";
 import Gift from "./Gift";
 import Menu from "./Menu";
+import Search from "./Search";
 import Item from "./Item";
 import OrderSuccess from "./OrderSuccess";
 import Checkout from "./Checkout";
@@ -108,6 +109,7 @@ const AppContent = ({ username, setUsername }) => {
         <Route path="/home" element={<Home token={token} />} />
         <Route path="/gift" element={<Gift token={token} />} />
         <Route path="/menu" element={<Menu token={token} />} />
+        <Route path="/search" element={<Search token={token} />} />
         <Route path="/cart" element={<Cart token={token} />} />
         <Route path="/login" element={<Login setUsername={setUsername} />} />
         <Route path="/register" element={<Signup />} />

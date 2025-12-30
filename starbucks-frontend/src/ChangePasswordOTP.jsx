@@ -154,7 +154,7 @@ const ChangePasswordOTP = () => {
           
           {/* Progress indicator */}
           <div className="mb-4">
-            <div className="d-flex justify-content-between">
+            <div className="progress-badges">
               <span className={`badge ${step >= 1 ? 'bg-success' : 'bg-secondary'}`}>
                 1. Email
               </span>
@@ -207,18 +207,12 @@ const ChangePasswordOTP = () => {
               <form onSubmit={handleOTPSubmit}>
                 <div className="mb-3">
                   <label className="l1">OTP Code</label>
-                  <div className="d-flex justify-content-center gap-2 mt-2">
+                  <div className="otp-inputs-container">
                     {[0, 1, 2, 3, 4, 5].map((index) => (
                       <input
                         key={index}
                         type="text"
-                        className="form-control text-center"
-                        style={{
-                          width: '50px',
-                          height: '50px',
-                          fontSize: '20px',
-                          fontWeight: 'bold'
-                        }}
+                        className="form-control otp-digit-input"
                         maxLength="1"
                         value={otp[index] || ''}
                         onChange={(e) => {
