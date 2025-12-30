@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import RedirectLoader from "./RedirectLoader";
+import googleLogo from "../assent/g-logo.png";
 import "./css/Login.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -63,7 +64,7 @@ const Login = ({ setUsername }) => {
     const left = window.screenX + (window.outerWidth - width) / 2;
     const top = window.screenY + (window.outerHeight - height) / 2;
 
-    const popup = window.open(
+    window.open(
       "http://localhost:4500/auth/google",
       "_blank",
       `width=${width},height=${height},left=${left},top=${top},toolbar=no,menubar=no,scrollbars=yes,resizable=yes`
@@ -164,6 +165,7 @@ const Login = ({ setUsername }) => {
               className="login-with-google-btn fw-bold"
               onClick={loginwithgoogle}
             >
+              <img src={googleLogo} alt="Google Logo" className="google-icon" />
               Continue with Google
             </button>
           </div>

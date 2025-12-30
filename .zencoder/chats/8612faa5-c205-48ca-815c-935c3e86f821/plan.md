@@ -17,19 +17,19 @@ Completed. Plan updated below.
 
 ## Implementation Tasks
 
-### [ ] Step: 1. Ensure Global Navbar Visibility
+### [x] Step: 1. Ensure Global Navbar Visibility
 Update `src/App.jsx` to ensure the `Navbar` component is rendered on all pages, including Login, Register, and Profile, as per the new requirement for global search access.
 - **Contract**: `src/App.jsx`
 - **Deliverable**: Navbar visible on `/login`, `/register`, etc.
 - **Verification**: Check if the navbar is rendered when navigating to `/login`.
 
-### [ ] Step: 2. Implement Search Redirection in Navbar
+### [x] Step: 2. Implement Search Redirection in Navbar
 Update `src/Navbar.jsx` to correctly capture search input and redirect to `/search?q={query}` on form submission.
 - **Contract**: `src/Navbar.jsx`
 - **Deliverable**: Form submission redirects to the correct URL.
 - **Verification**: Type "coffee" in the search box and press Enter. Verify URL is `/search?q=coffee`.
 
-### [ ] Step: 3. Implement Search Page Logic
+### [x] Step: 3. Implement Search Page Logic
 Update `src/Search.jsx` to:
 - Fetch all products from `http://localhost:4500/api/products`.
 - Extract `q` from the URL.
